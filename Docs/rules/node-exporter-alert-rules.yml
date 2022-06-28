@@ -1,0 +1,99 @@
+groups:
+  - name: node-exporter-alert
+    rules:
+    - alert: node-exporter-down
+      expr: node_exporter:up == 0
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} is down"
+        description: "instance: {{ $labels.instance }} 关机了，持续了5分钟。"
+        value: "{{ $value }}"
+        notify: "Fatal"
+    - alert: node-time-not-sync
+      expr: node_exporter:node:time:sync
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 时间不同步"
+        description: "instance: {{ $labels.instance }} 时间不同步， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"
+    - alert: node-cpu-used-percent-high-5
+      expr: node_exporter:cpu:total:percent > 5
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} CPU 使用率过高"
+        description: "instance: {{ $labels.instance }} CPU 使用率高于5%， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Info"
+    - alert: node-cpu-used-percent-high-20
+      expr: node_exporter:cpu:total:percent > 20
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} CPU 使用率过高"
+        description: "instance: {{ $labels.instance }} CPU 使用率高于20%， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"
+    - alert: node-memory-used-percent-5
+      expr: node_exporter:memory:used:percent > 20
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 内存使用率过高"
+        description: "instance: {{ $labels.instance }} 内存使用率高于20%， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Info"
+    - alert: node-memory-used-percent-60
+      expr: node_exporter:memory:used:percent > 60
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 内存使用率过高"
+        description: "instance: {{ $labels.instance }} 内存使用率高于60%， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"
+    - alert: node-load-load1-high-1.2
+      expr: sum by (instance) (node_exporter:load:load1) > sum by(instance) (node_exporter:cpu:count) * 1.2
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 系统负载使用率过高"
+        description: "instance: {{ $labels.instance }} 系统负载使用率高于内核数的1.2倍， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"
+    - alert: node-load-load1-high-2
+      expr: sum by (instance) (node_exporter:load:load1) > sum by(instance) (node_exporter:cpu:count) * 2
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 系统负载使用率过高"
+        description: "instance: {{ $labels.instance }} 系统负载使用率高于内核数的2倍， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Fatal"
+    - alert: node-disk-used-percent-20
+      expr: node_exporter:disk:used:percent > 20
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 磁盘使用率过高"
+        description: "instance: {{ $labels.instance }} 磁盘使用率高于20%， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"
+    - alert: node-disk-used-percent-80
+      expr: node_exporter:disk:used:percent > 80
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} 磁盘使用率过高"
+        description: "instance: {{ $labels.instance }} 磁盘使用率高于80%， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Fatal"
+    - alert: node-tcp-used-high-80
+      expr: node_exporter:network:tcp:currestab > 80
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} TCP 连接数高"
+        description: "instance: {{ $labels.instance }} TCP 连接数高于80， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"
+    - alert: node-tcp-tw-high-80
+      expr: node_exporter:network:tcp:tw > 80
+      for: 5m
+      annotations:
+        summary: "instance: {{ $labels.instance }} TCP TW数高"
+        description: "instance: {{ $labels.instance }} TCP TW数高于80， 时间已经5分钟了。"
+        value: "{{ $value }}"
+        notify: "Warning"    
