@@ -87,7 +87,7 @@ systemctl enable prometheus-server.service
 sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 sudo yum -y install consul
-## 可以配置 consul-server 服务
+## 可以配置 systemd 管理
 [root@master system]# cat consul-server.service
 [Unit]
 Description="HashiCorp Consul - A service mesh solution"
@@ -192,8 +192,9 @@ WantedBy=multi-user.target
 
 systemctl start node_exporter
 systemctl enable node_exporter
+
+## 上面全部步骤完成后在 prometheus 里就可以动态新增或删除被监控的目标机器 target
 ```
-**上面全部步骤完成后在 prometheus 里就可以动态新增或删除被监控的目标机器 target**
 ### 现在对接报警
 #### 部署 AlertManager
 ```
@@ -275,6 +276,9 @@ alerting:
         - targets: ['localhost:9093']
 ···
 ```
+**规则**
+[node-exporter-record-rules.yml](https://github.com/darianJmy/prometheus-demo/blob/main/Docs/rules/node-exporter-record-rules.yml)
+[node-exporter-alert-rules.yml](https://github.com/darianJmy/prometheus-demo/blob/main/Docs/rules/node-exporter-alert-rules.yml)
 **配置了报警后，Prometheus 页面 Alert 部分就会看见告警规则**
 ![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/prometheus03.png)
 
