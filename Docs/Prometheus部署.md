@@ -277,8 +277,11 @@ alerting:
 ···
 ```
 **规则**
+
 [node-exporter-record-rules.yml](https://github.com/darianJmy/prometheus-demo/blob/main/Docs/rules/node-exporter-record-rules.yml)
+
 [node-exporter-alert-rules.yml](https://github.com/darianJmy/prometheus-demo/blob/main/Docs/rules/node-exporter-alert-rules.yml)
+
 **配置了报警后，Prometheus 页面 Alert 部分就会看见告警规则**
 ![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/prometheus03.png)
 
