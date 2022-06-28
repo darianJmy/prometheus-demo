@@ -110,7 +110,7 @@ WantedBy=multi-user.target
 systemctl start consul-server
 systemctl enable consul-server
 
-
+![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/consul.png)
 ## 从图片可以看出 consul 上没有注册机器，可以通过 api 进行动态注册与删除
 ## 注册
 PUT http://172.16.8.12:8500/v1/agent/service/register
@@ -134,6 +134,7 @@ PUT http://172.16.8.12:8500/v1/agent/service/register
   ]
 }
 
+![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/consul02.png)
 ## 删除
 PUT http://172.16.8.12:8500/v1/agent/service/deregister/node_exporter-172.16.8.12
 ```
@@ -154,8 +155,11 @@ PUT http://172.16.8.12:8500/v1/agent/service/deregister/node_exporter-172.16.8.1
         regex: "(.*)node_exporter(.*)"
       - source_labels: ["__meta_consul_service_metadata_metrics_path"]
         target_label: "__metrics_path__"
-        
- ## 静态文件配置好后需要重启服务
+
+## prometheus 对接 consul 后可以通过 UI 页面的 configuration 查看是否已经配置成功，如果这时通过 consul 注册进虚拟机，那么 prometheus 就会动态发现
+![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/prometheus01.png)
+
+## 静态文件配置好后需要重启服务
 ```
 #### 部署 node_exporter
 ```
@@ -271,5 +275,11 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets: ['localhost:9093']
-···        
+···
+
+## 配置了报警后，Prometheus 页面 Alert 部分就会看见告警规则
+![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/prometheus03.png)
+
+## 如果触发了报警后 Prometheus 就会把报警发送给 AlertManager，此时可以根据需求配置 Alertmanager，制定发送消息次数、发送消息格式、发送目标等
+![avatar](https://github.com/darianJmy/prometheus-demo/blob/main/Photos/alertmanager.png)
 ```
